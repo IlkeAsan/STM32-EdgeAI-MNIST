@@ -11,9 +11,12 @@ Proje gorselleri :
 <br>
 <p align="center">
   <img src="images/py_result" width="48%" />
+    <br><br><br>
   <img src="images/stm32_result.jpeg" width="48%" />
 </p>
 <br>
+
+
 
 
 
