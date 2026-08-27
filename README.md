@@ -7,9 +7,14 @@ Projenin en büyük mühendislik özelliği; yapay zeka modelini mikrodenetleyic
 
 🚀 HIZLI BAŞLANGIÇ NOTU: Bu doküman, projenin yapay zeka, görüntü işleme ve donanım mimarisini (baremetal) anlatan detaylı teknik bir mühendislik raporudur. Teorik detayları atlayıp projeyi doğrudan bilgisayarınızda çalıştırmak ve denemek istiyorsanız, sayfanın en altındaki "6. Kurulum ve Çalıştırma Adımları" bölümüne atlayabilirsiniz.
 
-Proje gorselleri için :
-![Proje Görseli](images/stm32_result)
-![Proje Görseli 2](images/py_result)
+Proje gorselleri :
+<br>
+<p align="center">
+  <img src="images/py_result.png" width="48%" />
+  <img src="images/stm32_result.jpeg" width="48%" />
+</p>
+<br>
+
 
 
 📖 1. Projenin Amacı ve Özeti
