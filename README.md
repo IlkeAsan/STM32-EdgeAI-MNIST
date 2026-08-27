@@ -10,7 +10,7 @@ Projenin en büyük mühendislik özelliği; yapay zeka modelini mikrodenetleyic
 Proje gorselleri :
 <br>
 <p align="center">
-  <img src="images/py_result.png" width="48%" />
+  <img src="images/py_result" width="48%" />
   <img src="images/stm32_result.jpeg" width="48%" />
 </p>
 <br>
