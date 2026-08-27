@@ -9,7 +9,7 @@ Projenin en büyük mühendislik özelliği; yapay zeka modelini mikrodenetleyic
 
 Proje gorselleri için :
 ![Proje Görseli](images/stm32_result)
-![Proje Görseli 2](images/Ekran görüntüsü 2026-08-26 102146)
+![Proje Görseli 2](images/py_result)
 
 
 📖 1. Projenin Amacı ve Özeti
