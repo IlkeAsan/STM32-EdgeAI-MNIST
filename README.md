@@ -3,9 +3,14 @@ STM32PythonOpenCVBaremetal
 
 Bu proje, bilgisayar kamerasından alınan el yazısı rakamların bilgisayarlı görü (Computer Vision) algoritmalarıyla işlenip UART üzerinden STM32F439ZI mikrodenetleyicisine aktarıldığı ve mikrodenetleyici içine gömülmüş optimize bir Yapay Sinir Ağı (X-CUBE-AI) tarafından gerçek zamanlı olarak sınıflandırıldığı kapsamlı bir uçta yapay zeka (Edge AI) sistemidir.
 
-Projenin en büyük mühendislik özelliği; yapay zeka modelini mikrodenetleyicide koştururken üretici firmanın hantal Donanım Soyutlama Katmanı (HAL) kütüphanelerini kullanmak yerine, donanım kaynaklarını ve zamanlamayı optimize etmek amacıyla tamamen Baremetal (Yazmaç/Register Seviyesi) C programlama felsefesiyle geliştirilmiş olmasıdır.
+Projenin en büyük mühendislik özelliği; yapay zeka modelini mikrodenetleyicide koştururken üretici firmanın Donanım Soyutlama Katmanı (HAL) kütüphanelerini kullanmak yerine, donanım kaynaklarını ve zamanlamayı optimize etmek amacıyla tamamen Baremetal (Yazmaç/Register Seviyesi) C programlama felsefesiyle geliştirilmiş olmasıdır.
 
-🚀 HIZLI BAŞLANGIÇ NOTU: Bu doküman, projenin yapay zeka, görüntü işleme ve donanım mimarisini (baremetal) anlatan çok detaylı teknik bir mühendislik raporudur. Teorik detayları atlayıp projeyi doğrudan bilgisayarınızda çalıştırmak ve denemek istiyorsanız, sayfanın en altındaki "6. Kurulum ve Çalıştırma Adımları" bölümüne atlayabilirsiniz.
+🚀 HIZLI BAŞLANGIÇ NOTU: Bu doküman, projenin yapay zeka, görüntü işleme ve donanım mimarisini (baremetal) anlatan detaylı teknik bir mühendislik raporudur. Teorik detayları atlayıp projeyi doğrudan bilgisayarınızda çalıştırmak ve denemek istiyorsanız, sayfanın en altındaki "6. Kurulum ve Çalıştırma Adımları" bölümüne atlayabilirsiniz.
+
+Proje gorselleri için :
+![Proje Görseli](images/stm32_result)
+![Proje Görseli 2](images/Ekran görüntüsü 2026-08-26 102146)
+
 
 📖 1. Projenin Amacı ve Özeti
 Günümüzde yapay zeka modelleri genellikle devasa sunucularda (Cloud) çalıştırılır. Ancak savunma sanayii, IoT, otonom araçlar ve kapalı devre sistemlerde verinin buluta gidip gelmesi gecikme (latency), güvenlik açıkları ve yüksek güç tüketimi yaratır.
@@ -14,8 +19,9 @@ Amaç: Bu proje, derin öğrenme algoritmalarının buluta ihtiyaç duymadan, ki
 
 Python betiği web kamerasından aldığı el yazısını MNIST standardına dönüştürür.
 UART üzerinden STM32'ye iletir.
-STM32 içindeki gömülü model (hiçbir işletim sistemi olmadan) çıplak donanım üzerinde tahminde bulunur.
+STM32 içindeki gömülü model donanım üzerinde tahminde bulunur.
 Sonuçlar opsiyonel bir LCD ekrana ve fiziksel LED'lere yansıtılır.
+
 🛠️ 2. Kullanılan Donanımlar ve Geliştirme Ortamı
 Mikrodenetleyici (Ana Geliştirme Kartı): STM32 Nucleo-144 (NUCLEO-F439ZI)
 Mimarî: ARM Cortex-M4 (180 MHz) - Donanımsal FPU (Kayan Nokta Ünitesi) destekli.
@@ -24,7 +30,7 @@ Kamera: Standart PC Web Kamerası (Python üzerinden görüntü yakalamak için)
 Gösterge (Opsiyonel): 16x2 Karakter LCD ve PCF8574 I2C Genişletici modülü. (Eğer elinizde LCD yoksa, sonuçları sadece bilgisayar terminalinden ve kart üzerindeki LED'lerden de görebilirsiniz).
 Yazılım Ortamı:
 STM32CubeIDE (C/C++ Derleyici ve IDE)
-STM32CubeMX & X-CUBE-AI Eklentisi (Model dönüştürme için)
+STM32CubeMX & STM32Cube AI Studio Eklentisi (Model dönüştürme için)
 Python 3.x (opencv-python, pyserial, numpy)
 ⚠️ Kritik Uyarı (Sürüm Uyumluluğu): Projeyi kendi bilgisayarınızda derlerken STM32CubeMX, STM32CubeIDE ve X-CUBE-AI paketlerinin mutlaka en güncel sürümlerinde olduğundan emin olun. STMicroelectronics, AI motorunun (CMSIS-NN) çekirdek dosyalarını sürekli günceller. Eski bir CubeMX sürümü kullanmak, C koduna çevrilen yapay zeka kütüphanelerinde sürüm çakışmalarına (Build Error) neden olabilir.
 
@@ -37,7 +43,7 @@ Projede sıfırdan bir model eğitilmemiş, bunun yerine STMicroelectronics'in G
 Neden Bu Model? Bu model rastgele bir Evrişimli Sinir Ağı (CNN) değildir. Özel olarak Cortex-M işlemciler için optimize edilmiştir. Katman sayıları azaltılmış (Topology Optimization), gereksiz ağırlıklar budanmış (Pruning) ve düşük RAM/Flash tüketimi için tasarlanmıştır. Model, X-CUBE-AI motoruna TensorFlow Lite formatında (.tflite) beslenmiştir.
 
 Adım 3.2: STM32Cube.AI / AI Studio Üzerinde Neler Yaptık?
-Optimize modeli CubeMX içindeki X-CUBE-AI arayüzüne yükledikten sonra şu işlemler yapılmıştır:
+Optimize modeli STM32Cube AI Studio arayüzüne yükledikten sonra şu işlemler yapılmıştır:
 
 Analiz (Analyze): Modelin mikrodenetleyici üzerinde çalışırken kaç KB Flash (ROM) ve kaç KB RAM harcayacağı analiz edilmiştir.
 Bellek Optimizasyonu (Memory Reuse): RAM tasarrufu için katmanlar arası geçici tensörlerin aynı bellek alanını üzerine yazarak (Ping-Pong buffer) kullanması aktif edilmiştir.
@@ -62,6 +68,7 @@ Yapay zeka Float32 (ondalıklı) matris çarpımı yapar. Ancak Cortex-M4'te FPU
 c
 
 (*(volatile uint32_t *)0xE000ED88) |= ((3UL << 10*2) | (3UL << 11*2));
+
 Kriz 2: Preallocated Bellek Bağlama
 Model, parçalanmayı önlemek için RAM'de malloc() kullanmaz (STAI_FLAG_PREALLOCATED). Bizim ona statik bir bellek adresi vermemiz gerekir. main.c üzerinden statik bellek dizileri oluşturulmuş ve modele köprülenmiştir:
 
@@ -69,6 +76,7 @@ c
 
 stai_network_set_inputs(network, &in_data);
 stai_network_set_outputs(network, &out_data);
+
 Kriz 3: Sürekli '8' Tahmini ve Normalizasyon Matematiği
 Python'dan 0 (siyah) ve 255 (beyaz) olarak gelen pikseller modele doğrudan verilirse model sürekli '8' tahmin eder. Çünkü ST'nin modeli [-1.0, 1.0] aralığında eğitilmiştir. Pikseller main.c içinde donanımsal olarak şu şekilde normalize edilir (Siyah = -1.0, Beyaz = 1.0):
 
@@ -79,7 +87,7 @@ for(int i=0; i<784; i++) {
 }
 Sonuç Tespiti (ArgMax Algoritması)
 Model çıkışında oluşan 36 sınıflık (0-9 ve A-Z) olasılık dizisi C dilinde for döngüsüyle taranır (ArgMax). En yüksek olasılığa sahip indeks tespit edilir. Bulunan sonuç I2C protokolü üzerinden (isteğe bağlı) LCD ekrana yazdırılır ve karta entegre LED, tespit edilen rakam sayısı kadar yanıp sönerek (Örn: Sonuç 3 ise 3 kez göz kırpar) fiziksel geri bildirim verir.
-
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 🚀 6. Kurulum ve Çalıştırma Adımları
 Donanım Bağlantıları:
 
@@ -101,6 +109,9 @@ COM Portunun Bulunması ve Python Koduna Entegre Edilmesi:
 STM32 kartınız bilgisayara USB ile bağlıyken, Windows'ta Aygıt Yöneticisi'ni (Device Manager) açın.
 Listeden "Bağlantı Noktaları (COM ve LPT)" sekmesini genişletin.
 Orada STMicroelectronics Sanal Seri Portunun hangi numarayı aldığını not edin (Örneğin: COM3, COM7, COM12 vb.).
+
+ÖNEMLİ !!!
+
 Proje klasöründeki ai_camera.py dosyasını bir metin editörüyle (VS Code, Notepad++ veya IDLE) açın.
 Dosyanın hemen başlarındaki ayarlar bloğunda yer alan COM_PORT değişkenini bulun ve kendi port numaranızla değiştirin. (Ayrıca bilgisayarınızda birden fazla kamera varsa ve programı açtığınızda siyah ekran alırsanız CAMERA_ID değerini 1 veya 2 yaparak harici kameraya geçebilirsiniz):
 python
