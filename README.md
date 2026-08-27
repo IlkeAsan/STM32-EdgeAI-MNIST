@@ -95,6 +95,7 @@ for(int i=0; i<784; i++) {
 }
 Sonuç Tespiti (ArgMax Algoritması)
 Model çıkışında oluşan 36 sınıflık (0-9 ve A-Z) olasılık dizisi C dilinde for döngüsüyle taranır (ArgMax). En yüksek olasılığa sahip indeks tespit edilir. Bulunan sonuç I2C protokolü üzerinden (isteğe bağlı) LCD ekrana yazdırılır ve karta entegre LED, tespit edilen rakam sayısı kadar yanıp sönerek (Örn: Sonuç 3 ise 3 kez göz kırpar) fiziksel geri bildirim verir.
+
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 🚀 6. Kurulum ve Çalıştırma Adımları
 Donanım Bağlantıları:
